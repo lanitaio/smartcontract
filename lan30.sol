@@ -1,19 +1,23 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.4;
 
 contract Token {
+
     function totalSupply() constant returns (uint256 supply) {}
     function balanceOf(address _owner) constant returns (uint256 balance) {}
     function transfer(address _to, uint256 _value) returns (bool success) {}
     function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {}
     function approve(address _spender, uint256 _value) returns (bool success) {}
     function allowance(address _owner, address _spender) constant returns (uint256 remaining) {}
+
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
+
 }
 
 contract StandardToken is Token {
 
     function transfer(address _to, uint256 _value) returns (bool success) {
+
         if (balances[msg.sender] >= _value && _value > 0) {
             balances[msg.sender] -= _value;
             balances[_to] += _value;
@@ -23,6 +27,7 @@ contract StandardToken is Token {
     }
 
     function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {
+
         if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0) {
             balances[_to] += _value;
             balances[_from] -= _value;
@@ -43,7 +48,7 @@ contract StandardToken is Token {
     }
 
     function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
-      return allowed[_owner][_spender];
+        return allowed[_owner][_spender];
     }
 
     mapping (address => uint256) balances;
@@ -51,20 +56,25 @@ contract StandardToken is Token {
     uint256 public totalSupply;
 }
 
-contract LATE30 is StandardToken {
-
-    string public constant name = "LANITA TEST";
-    uint8 public constant decimals = 18;
-    string public constant symbol = "LATE30";
-
-    uint256 public totalSupply = 31000000 * (10 ** decimals);
-
-    function LATE30() {
-        balances[msg.sender] = totalSupply;
-    }
+contract LAN30 is StandardToken {
 
     function () {
         //if ether is sent to this address, send it back.
         throw;
     }
+
+    string public name;
+    uint8 public decimals;
+    string public symbol;
+    string public version = 'H1.0';
+
+    function LAN30(
+    ) {
+        balances[msg.sender] = 61000000000000000000000000;
+        totalSupply = 61000000000000000000000000;
+        name = "LANITA";
+        decimals = 18;
+        symbol = "LAN30";
+    }
+
 }
